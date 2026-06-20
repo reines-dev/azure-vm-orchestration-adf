@@ -1,0 +1,16 @@
+{
+    "Name": "Virtual Machine Power Controller (ADF)",
+    "IsCustom": true,
+    "Description": "Permite unicamente encender, apagar (deallocate) y leer el estado de una maquina virtual.",
+    "Actions": [
+        "Microsoft.Compute/virtualMachines/read",
+        "Microsoft.Compute/virtualMachines/start/action",
+        "Microsoft.Compute/virtualMachines/deallocate/action"
+    ],
+    "NotActions": [],
+    "DataActions": [],
+    "NotDataActions": [],
+    "AssignableScopes": [
+        "/subscriptions/<YOUR_SUBSCRIPTION_ID>"
+    ]
+}

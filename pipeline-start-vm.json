@@ -1,0 +1,49 @@
+{
+    "properties": {
+        "activities": [
+            {
+                "name": "Encender VM Parametrica",
+                "type": "WebActivity",
+                "dependsOn": [],
+                "policy": {
+                    "timeout": "0.12:00:00",
+                    "retry": 1,
+                    "retryIntervalInSeconds": 30,
+                    "secureOutput": false,
+                    "secureInput": false
+                },
+                "userProperties": [],
+                "typeProperties": {
+                    "url": {
+                        "value": "@concat('https://management.azure.com/subscriptions/', pipeline().parameters.SubscriptionId, '/resourceGroups/', pipeline().parameters.ResourceGroup, '/providers/Microsoft.Compute/virtualMachines/', pipeline().parameters.VMName, '/start?api-version=2021-11-01')",
+                        "type": "Expression"
+                    },
+                    "method": "POST",
+                    "body": {},
+                    "authentication": {
+                        "type": "UserAssigned",
+                        "credential": {
+                            "referenceName": "Credencial_Control_VM",
+                            "type": "CredentialReference"
+                        },
+                        "resource": "https://management.azure.com/"
+                    }
+                }
+            }
+        ],
+        "parameters": {
+            "SubscriptionId": {
+                "type": "string",
+                "defaultValue": "<YOUR_SUBSCRIPTION_ID>"
+            },
+            "ResourceGroup": {
+                "type": "string",
+                "defaultValue": "rg-computelab-prod-eastus2"
+            },
+            "VMName": {
+                "type": "string",
+                "defaultValue": "vm-datalab-prod-eastus2"
+            }
+        }
+    }
+}

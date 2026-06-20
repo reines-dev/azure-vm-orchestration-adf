@@ -1,0 +1,22 @@
+{
+    "name": "Apagar VM Data Lab",
+    "type": "WebActivity",
+    "dependsOn": [],
+    "policy": {
+        "timeout": "0.12:00:00",
+        "retry": 1,
+        "retryIntervalInSeconds": 30,
+        "secureOutput": false,
+        "secureInput": false
+    },
+    "userProperties": [],
+    "typeProperties": {
+        "url": "https://management.azure.com/subscriptions/91a951e6-4f42-4b04-b903-453ada37d059/resourceGroups/DATA-LAB/providers/Microsoft.Compute/virtualMachines/vm-data-lab/deallocate?api-version=2021-11-01",
+        "method": "POST",
+        "body": {},
+        "authentication": {
+            "type": "MSI",
+            "resource": "https://management.azure.com/"
+        }
+    }
+}
