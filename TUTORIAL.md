@@ -10,19 +10,19 @@ La solución está diseñada bajo el estándar de **Mínimo Privilegio (Least Pr
 
 ```mermaid
 graph TD
-    subgraph Azure Data Factory (ADF)
+    subgraph "Azure Data Factory (ADF)"
         Pipe[Pipeline Orquestador] -->|Execute| StartPipe[Pipeline: Pipeline_Encender_VM]
         Pipe -->|Execute| StopPipe[Pipeline: Pipeline_Apagar_VM]
         StartPipe -->|Usa| Cred[Credencial: Credencial_Control_VM]
         StopPipe -->|Usa| Cred
     end
     
-    subgraph Control de Acceso (IAM)
+    subgraph "Control de Acceso (IAM)"
         Cred -->|Asociado a| UAMI[User-Assigned Managed Identity]
         UAMI -->|Rol Custom: VM Power Controller| RBAC[Asignación de Rol sobre VM]
     end
 
-    subgraph Cómputo (IaaS)
+    subgraph "Cómputo (IaaS)"
         RBAC -->|Ejecuta /start o /deallocate| VM[Máquina Virtual]
     end
 ```
