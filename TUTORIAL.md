@@ -62,7 +62,7 @@ az account set --subscription $subscriptionId
 ---
 
 ### 2. Creación de los Grupos de Recursos
-Crea los contenedores lógicos para tus recursos de datos y cómputo:
+Crea los contenedores lógicos para tus recursos de datos y cómputo de manera organizada:
 
 ```powershell
 # Grupo de recursos para los servicios de datos (ADF)
@@ -184,41 +184,12 @@ az resource create \
 Para lograr una reutilización óptima, creamos dos pipelines parametrizados. Las actividades Web concatenan dinámicamente la URL utilizando parámetros de entrada.
 
 ### A. Pipeline de Encendido (`Pipeline_Encender_VM`)
-Crea el archivo `pipeline-start-vm.json` con la definición parametrizada:
-
-```json
-{
-    "properties": {
-        "activities": [
-            {
-                "name": "Encender VM Parametrica",
-                "type": "WebActivity",
-                "typeProperties": {
-                    "url": {
-                        "value": "@concat('https://management.azure.com/subscriptions/', pipeline().parameters.SubscriptionId, '/resourceGroups/', pipeline().parameters.ResourceGroup, '/providers/Microsoft.Compute/virtualMachines/', pipeline().parameters.VMName, '/start?api-version=2021-11-01')",
-                        "type": "Expression"
-                    },
-                    "method": "POST",
-                    "body": {},
-                    "authentication": {
-                        "type": "UserAssigned",
-                        "credential": {
-                            "referenceName": "Credencial_Control_VM",
-                            "type": "CredentialReference"
-                        },
-                        "resource": "https://management.azure.com/"
-                    }
-                }
-            }
-        ],
-        "parameters": {
-            "SubscriptionId": { "type": "string", "defaultValue": "<YOUR_SUBSCRIPTION_ID>" },
-            "ResourceGroup": { "type": "string", "defaultValue": "rg-computelab-prod-eastus2" },
-            "VMName": { "type": "string", "defaultValue": "vm-datalab-prod-eastus2" }
-        }
-    }
-}
-```
+*   *Definición JSON en local:* [pipeline-start-vm.json](./pipeline-start-vm.json)
+*   **Parámetros:** `SubscriptionId`, `ResourceGroup`, `VMName`.
+*   **Actividad Web URL Dinámica:**
+    ```json
+    @concat('https://management.azure.com/subscriptions/', pipeline().parameters.SubscriptionId, '/resourceGroups/', pipeline().parameters.ResourceGroup, '/providers/Microsoft.Compute/virtualMachines/', pipeline().parameters.VMName, '/start?api-version=2021-11-01')
+    ```
 
 Despliega el pipeline en ADF:
 ```powershell
@@ -232,41 +203,11 @@ az datafactory pipeline create \
 ---
 
 ### B. Pipeline de Apagado (`Pipeline_Apagar_VM`)
-Crea el archivo `pipeline-stop-vm.json` con la definición para la acción de `deallocate`:
-
-```json
-{
-    "properties": {
-        "activities": [
-            {
-                "name": "Apagar VM Parametrica",
-                "type": "WebActivity",
-                "typeProperties": {
-                    "url": {
-                        "value": "@concat('https://management.azure.com/subscriptions/', pipeline().parameters.SubscriptionId, '/resourceGroups/', pipeline().parameters.ResourceGroup, '/providers/Microsoft.Compute/virtualMachines/', pipeline().parameters.VMName, '/deallocate?api-version=2021-11-01')",
-                        "type": "Expression"
-                    },
-                    "method": "POST",
-                    "body": {},
-                    "authentication": {
-                        "type": "UserAssigned",
-                        "credential": {
-                            "referenceName": "Credencial_Control_VM",
-                            "type": "CredentialReference"
-                        },
-                        "resource": "https://management.azure.com/"
-                    }
-                }
-            }
-        ],
-        "parameters": {
-            "SubscriptionId": { "type": "string", "defaultValue": "<YOUR_SUBSCRIPTION_ID>" },
-            "ResourceGroup": { "type": "string", "defaultValue": "rg-computelab-prod-eastus2" },
-            "VMName": { "type": "string", "defaultValue": "vm-datalab-prod-eastus2" }
-        }
-    }
-}
-```
+*   *Definición JSON en local:* [pipeline-stop-vm.json](./pipeline-stop-vm.json)
+*   **Actividad Web URL Dinámica:**
+    ```json
+    @concat('https://management.azure.com/subscriptions/', pipeline().parameters.SubscriptionId, '/resourceGroups/', pipeline().parameters.ResourceGroup, '/providers/Microsoft.Compute/virtualMachines/', pipeline().parameters.VMName, '/deallocate?api-version=2021-11-01')
+    ```
 
 Despliega el pipeline en ADF:
 ```powershell

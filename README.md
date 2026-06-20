@@ -39,7 +39,7 @@ Para proteger tu entorno de Azure, implementamos un esquema de seguridad endurec
     *   `Microsoft.Compute/virtualMachines/deallocate/action` (Apagar y liberar costos)
 3.  **Ámbito Acotado (Scope):** Los permisos están asignados exclusivamente sobre el recurso individual de la VM `vm-datalab-prod-eastus2` y no sobre todo el grupo de recursos ni la suscripción.
 
-*Definición del rol en el proyecto:* [custom-role-vm-controller.json](file:///D:/Proyectos/Personales/Encender maquina virtual desde adf/custom-role-vm-controller.json)
+*Definición del rol en el proyecto:* [custom-role-vm-controller.json](./custom-role-vm-controller.json)
 
 ---
 
@@ -78,9 +78,9 @@ Hemos automatizado y desplegado en tu nuevo ADF los siguientes recursos parametr
 
 1.  **Credencial Compartida:** `Credencial_Control_VM` (apunta a la identidad `id-adf-vm-controller-prod`).
 2.  **Pipeline: `Pipeline_Encender_VM`** (Inicia la máquina virtual parametrizada).
-    *   *Definición JSON en local:* [pipeline-start-vm.json](file:///D:/Proyectos/Personales/Encender%20maquina%20virtual%20desde%20adf/pipeline-start-vm.json)
+    *   *Definición JSON en local:* [pipeline-start-vm.json](./pipeline-start-vm.json)
 3.  **Pipeline: `Pipeline_Apagar_VM`** (Apaga y desasigna la máquina virtual parametrizada).
-    *   *Definición JSON en local:* [pipeline-stop-vm.json](file:///D:/Proyectos/Personales/Encender%20maquina%20virtual%20desde%20adf/pipeline-stop-vm.json)
+    *   *Definición JSON en local:* [pipeline-stop-vm.json](./pipeline-stop-vm.json)
 
 ---
 
